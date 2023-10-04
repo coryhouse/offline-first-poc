@@ -6,8 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { processQueue } from "./utils/processQueue.ts";
 
-// Run every 5 seconds
-setInterval(() => processQueue(), 5000);
+setInterval(() => processQueue(), 5000); // Process the queue every 5 seconds
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

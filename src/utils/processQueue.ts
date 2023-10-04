@@ -6,18 +6,20 @@ export async function processQueue() {
   if (!navigator.onLine) return; // Only process queue when online
   const messages = await get<string[]>("messageQueue");
   if (!messages) return;
-  for (const message of messages) {
-    try {
+  const savedMessages: string[] = [];
+  try {
+    for (const message of messages) {
       await saveMessage(message);
-      toast.success("Queued message saved.");
-      // remove message from queue
-      await set(
-        "messageQueue",
-        messages.filter((m) => m !== message)
-      );
-    } catch (e) {
-      toast.error("Queued message failed to send. We'll try again later.");
-      return;
+      toast.success("Queued message saved: " + message);
+      savedMessages.push(message);
     }
+    // remove saved messages from queue
+    await set(
+      "messageQueue",
+      messages.filter((m) => savedMessages.indexOf(m) === -1)
+    );
+  } catch (e) {
+    toast.error("Some queued messages failed to send. We'll try again later.");
+    return;
   }
 }
