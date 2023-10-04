@@ -18,7 +18,7 @@ export default function App() {
         toast.success("Message saved.");
         setMessage(""); // clear the form so the user can enter a new message
       } else {
-        toast.error("Message failed to send.");
+        toast.error("Message failed to send. Try clicking save again.");
       }
     } else {
       // If offline, save the message to the queue
@@ -27,6 +27,7 @@ export default function App() {
         message,
       ]);
       toast.success("Message queued.");
+      setMessage(""); // clear the form so the user can enter a new message
     }
   }
 
