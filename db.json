@@ -1,11 +1,17 @@
 {
   "messages": [
     {
+      "id": 1,
       "text": ""
+    },
+    {
+      "text": "test",
+      "id": 2
     }
   ],
   "images": [
     {
+      "id": 1,
       "base64": ""
     }
   ]

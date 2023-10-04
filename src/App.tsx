@@ -1,32 +1,19 @@
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { useOfflineState } from "./useOfflineState";
+import About from "./About";
+import Form from "./Form";
 
 export default function App() {
-  const [message, setMessage] = useOfflineState("", "message");
-
   return (
     <>
-      <h1>Offline First POC</h1>
+      <nav>
+        <Link to="/">Form</Link> | <Link to="/about">About</Link>
+      </nav>
 
-      <p>{navigator.onLine ? "On" : "Off"}line</p>
-
-      <div>
-        <label>Message</label>
-        <br />
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-        ></input>
-      </div>
-
-      <div>
-        <label>Image</label>
-        <br />
-        <input type="file" />
-      </div>
+      <Routes>
+        <Route path="/" element={<Form />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </>
   );
 }
