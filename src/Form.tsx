@@ -2,6 +2,7 @@ import { get, set } from "idb-keyval";
 import "./App.css";
 import { useOfflineState } from "./useOfflineState";
 import toast from "react-hot-toast";
+import { saveMessage } from "./services/message.service";
 
 export default function App() {
   const [message, setMessage] = useOfflineState("", "message");
@@ -9,15 +10,11 @@ export default function App() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (navigator.onLine) {
-      const resp = await fetch("http://localhost:3001/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: message }),
-      });
-      if (resp.ok) {
+      try {
+        await saveMessage(message);
         toast.success("Message saved.");
         setMessage(""); // clear the form so the user can enter a new message
-      } else {
+      } catch (e) {
         toast.error("Message failed to send. Try clicking save again.");
       }
     } else {
