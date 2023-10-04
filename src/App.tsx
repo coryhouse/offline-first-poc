@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useOfflineState } from "./useOfflineState";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [message, setMessage] = useOfflineState("", "message");
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <h1>Offline First POC</h1>
 
-export default App
+      <p>{navigator.onLine ? "On" : "Off"}line</p>
+
+      <div>
+        <label>Message</label>
+        <br />
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+        ></input>
+      </div>
+
+      <div>
+        <label>Image</label>
+        <br />
+        <input type="file" />
+      </div>
+    </>
+  );
+}
