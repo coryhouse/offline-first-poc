@@ -2,35 +2,12 @@ import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import About from "./About";
 import Form from "./Form";
-import { get, set } from "idb-keyval";
-import toast from "react-hot-toast";
+import { processQueue } from "./utils/processQueue";
+
+// Run every 5 seconds
+setInterval(() => processQueue(), 5000);
 
 export default function App() {
-  async function processQueue() {
-    const messages = await get<string[]>("messageQueue");
-    if (!messages) return;
-    for (const message of messages) {
-      const resp = await fetch("http://localhost:3001/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: message }),
-      });
-      if (resp.ok) {
-        toast.success("Queued message saved.");
-      }
-      // remove message from queue
-      await set(
-        "messageQueue",
-        messages.filter((m) => m !== message)
-      );
-    }
-  }
-
-  // run processQueue every 5 seconds when online
-  setInterval(() => {
-    if (navigator.onLine) processQueue();
-  }, 5000);
-
   return (
     <>
       <nav>
