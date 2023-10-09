@@ -1,12 +1,20 @@
 {
-  "messages": [
+  "buildings": [
     {
       "id": 1,
-      "text": ""
+      "name": ""
     },
     {
-      "text": "test",
-      "id": 2
+      "id": 2,
+      "name": "2nd"
+    },
+    {
+      "id": 3,
+      "name": "3rd"
+    },
+    {
+      "id": 4,
+      "name": "dsgg"
     }
   ],
   "images": [

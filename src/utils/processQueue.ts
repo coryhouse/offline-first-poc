@@ -1,25 +1,27 @@
 import toast from "react-hot-toast";
-import { saveMessage } from "../services/message.service";
+import { Building, saveBuilding } from "../services/building.service";
 import { get, set } from "idb-keyval";
+
+export const buildingQueueKey = "buildingQueue";
 
 export async function processQueue() {
   if (!navigator.onLine) return; // Only process queue when online
-  const messages = await get<string[]>("messageQueue");
-  if (!messages) return;
-  const savedMessages: string[] = [];
+  const buildings = await get<Building[]>(buildingQueueKey);
+  if (!buildings) return;
+  const savedBuildings: Building[] = [];
   try {
-    for (const message of messages) {
-      await saveMessage(message);
-      toast.success("Queued message saved: " + message);
-      savedMessages.push(message);
+    for (const building of buildings) {
+      await saveBuilding(building);
+      toast.success("Queued building saved: " + building.id);
+      savedBuildings.push(building);
     }
-    // remove saved messages from queue
+    // Remove saved records from queue
     await set(
-      "messageQueue",
-      messages.filter((m) => savedMessages.indexOf(m) === -1)
+      buildingQueueKey,
+      buildings.filter((b) => savedBuildings.indexOf(b) === -1)
     );
   } catch (e) {
-    toast.error("Some queued messages failed to send. We'll try again later.");
+    toast.error("Some queued records failed to send. We'll try again later.");
     return;
   }
 }

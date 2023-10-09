@@ -1,7 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import About from "./About";
-import Form from "./Form";
+import BuildingForm from "./BuildingForm";
 
 export default function App() {
   return (
@@ -11,7 +11,7 @@ export default function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Form />} />
+        <Route path="/" element={<BuildingForm />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </>
